@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { v4 } from "uuid";
 import ContactsList from "./ContactsList";
 import inputs from "../constants/inputs";
-
 
 function Contacts() {
   const [contacts, setContacts] = useState([]);
@@ -13,7 +13,7 @@ function Contacts() {
     phone: "",
   });
 
-  const changeHandler = (event) => {    
+  const changeHandler = (event) => {
     const name = event.target.name;
     const value = event.target.value;
 
@@ -21,14 +21,21 @@ function Contacts() {
   };
 
   const addHandler = () => {
-    if (!contact.name || !contact.lastName || !contact.email || !contact.phone) {
+    if (
+      !contact.name ||
+      !contact.lastName ||
+      !contact.email ||
+      !contact.phone
+    ) {
       setAlert("Please enter valid data!");
       return;
     }
 
     setAlert("");
-    setContacts((contacts) => [...contacts, contact]);
+    const newContact = { ...contact, id: v4() };
+    setContacts((contacts) => [...contacts, newContact]);
     setContact({
+      id: "",
       name: "",
       lastName: "",
       email: "",
